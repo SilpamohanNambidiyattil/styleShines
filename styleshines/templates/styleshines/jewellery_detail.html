@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mt-5 ">
+        <h1 class="text text-center mb-5">Jewellery Details</h1>
+        <div class="row">
+            <div class="col-4">
+                <div class="card border-dark" style="width:100%">
+                    <img src="{{jewellery.image.url}}" class="card-img-top mt-5" alt="..." height="200px" width="100px" style="object-fit: contain;">
+                    <div class="card-body">
+                      <h5 class="card-title text-center">{{jewellery.name}}</h5>
+                    </div>
+                    <ul class="list-group list-group-flush ">
+                      <li class="list-group-item">{{jewellery.category}}</li>
+                      <li class="list-group-item">{{jewellery.type}}</li>
+                    </ul>
+                  </div>
+            </div>
+            <div class="col-8 border border-dark">
+               <table class="table table-bordered text-center mt-5">
+                <tr>
+                    <td>Price</td>
+                    <td>Description</td>
+                    <td>Action</td>
+                </tr>
+                <tr>
+                  
+                {%for v in jewellery.jewelleryvarients_set.all%}
+                <td>{{v.price}}</td>
+                <td>{{v.description}}</td>
+                      <td>
+                          <a href="{%url 'jewellery-varient-change' v.id%}" class="btn btn-outline-success">edit</i></a>
+                          <a href="{%url 'jewellery-varient-remove' v.id%}" class="btn btn-outline-danger">remove</i></a>
+                          <a href="{%url 'offers-add' v.id%}" class="btn btn-outline-success">offers</a>
+                      </td>
+                    </tr>
+                {%endfor%}
+               </table>
+            </div>
+        </div>
+        <div class="row mt-3">
+          
+          {%for v in jewellery.jewelleryvarients_set.all%}
+            {%for o in v.offers_set.all%}
+              <div class="border border-dark p-3">
+                <div>
+                  Description : {{o.jewel_varient.description}}
+                </div>
+                <div><span>offer price  : ${{o.discount_price}}</span></div>
+                <div>start_date : {{o.start_date}}</div>
+                <div>end_date : {{o.end_date}}</div>
+                <a href="{%url 'offer-remove' o.id%}" class="btn btn-outline-danger mt-3">remove</a>
+              </div>
+            {%endfor%}
+          {%endfor%}
+         
+      </div>
+      </div>
+</body>
+</html>
